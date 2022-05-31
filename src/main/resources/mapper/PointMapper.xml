@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+########################################################################
+# Filename	: PointMapper.xml
+# Description	: 포인트
+# author	: 고은비
+# since	: 2022.05.31
+########################################################################
+-->
+<mapper namespace="com.kakaopaycoding.eunbi.point.PointMapper">
+    <!-- 포인트 적립 -->
+    <insert id="insertPointAdd" parameterType="map" >
+        /*[PointMapper.xml][insertPointAdd]*/
+        INSERT INTO EUNBI.TB_USER_POINT_ADD (
+            POINT_SEQ
+            , USER_ID
+            , POINT_TOT
+            , USE_YN
+            , DESCRINPTION
+            , REG_ID
+            , REG_DTM
+            , UPD_ID
+            , UPD_DTM
+        ) VALUES (
+            nextval(SEQ_POINT_ADD)
+            , #{userId}
+            , #{pointTot}
+            , 'Y'
+            , #{description}
+            , #{systemId}
+            , SYSDATE()
+            , #{systemId}
+            , SYSDATE()
+        )
+    </insert>
+
+    <!-- 포인트 사용 -->
+    <insert id="insertPointUse" parameterType="map" >
+        /*[PointMapper.xml][insertPointUse]*/
+        INSERT INTO EUNBI.TB_USER_POINT_USE (
+            POINT_SEQ
+            , USER_ID
+            , ORDER_ID
+            , POINT_TOT
+            , USE_YN
+            , DESCRINPTION
+            , REG_ID
+            , REG_DTM
+            , UPD_ID
+            , UPD_DTM
+        ) VALUES (
+            nextval(SEQ_POINT_USE)
+            , #{userId}
+            , #{orderId}
+            , #{pointTot}
+            , 'Y'
+            , #{description}
+            , #{systemId}
+            , SYSDATE()
+            , #{systemId}
+            , SYSDATE()
+        )
+    </insert>
+
+
+    <update id="updateUserPointAdd"  parameterType="map">
+        /*[PointMapper.xml][updateUserPoint]*/
+        UPDATE EUNBI.TB_USER_BASIC
+        SET POINT_TOT = NVL(POINT_TOT,0) + #{pointTot}
+        WHERE USER_ID = #{userId};
+    </update>
+    <update id="updateUserPointUse"  parameterType="map">
+        /*[PointMapper.xml][updateUserPoint]*/
+        UPDATE EUNBI.TB_USER_BASIC
+        SET POINT_TOT = NVL(POINT_TOT,0) - #{pointTot}
+        WHERE USER_ID = #{userId};
+    </update>
+
+    <select id="selectUserPoint" parameterType="Map" resultType="com.kakaopaycoding.eunbi.vo.UserVo">
+        SELECT
+            USER_ID     /*사용자아이디*/
+            , USER_NM       /*사용자명*/
+            , USER_STAT_CD      /*사용자상태코드*/
+            , USER_FG_CD        /*사용자구분코트*/
+            , NVL(POINT_TOT,0) as POINT_TOT     /*보유포인트*/
+            , USE_YN        /*사용여부*/
+        FROM TB_USER_BASIC
+        WHERE 1=1
+        AND USE_YN = 'Y'
+        AND USER_ID = #{userId}
+    </select>
+
+</mapper>

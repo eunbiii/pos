@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+############################ SnippetGenerator ##########################
+# Filename	: MenuMapper.xml
+# Description	: 메뉴
+# author	: 고은비
+# since	: 2022.05.31
+########################################################################
+-->
+<mapper namespace="com.kakaopaycoding.eunbi.menu.MenuMapper">
+    <select id="selectMenuAll" parameterType="Map" resultType="com.kakaopaycoding.eunbi.vo.MenuVo">
+        SELECT
+            MENU_ID     /*메뉴아이디*/
+            , MENU_NAME     /*메뉴명*/
+            , MENU_PRICE        /*가격*/
+            , DATE_FORMAT(REG_DTM, '%y%m%d') as REG_DTM       /*등록일자*/
+            , REG_ID        /*등록자*/
+            , DATE_FORMAT(UPD_DTM, '%y%m%d') as UPD_DTM       /*수정일자*/
+            , UPD_ID        /*수정자*/
+        FROM TB_MENU_BASIC
+        WHERE 1=1
+        AND USE_YN ='Y'
+    </select>
+</mapper>

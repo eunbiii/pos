@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+########################################################################
+# Filename	: OrderMapper.xml
+# Description	: 주문
+# author	: 고은비
+# since	: 2022.05.31
+########################################################################
+-->
+<mapper namespace="com.kakaopaycoding.eunbi.order.OrderMapper">
+    <insert id="insertOrder" parameterType="com.kakaopaycoding.eunbi.vo.OrderVo"
+            useGeneratedKeys="true" keyProperty="orderId" keyColumn="ORDER_ID">
+        /*[OrderMapper.xml][insertOrder]*/
+        INSERT INTO EUNBI.TB_ORDER_BAS (
+            ORDER_ID
+            , USER_ID
+            , ORDER_PRICE
+            , ORDER_STAT
+            , ORDER_DATE
+            , REG_ID
+            , REG_DTM
+            , UPD_ID
+            , UPD_DTM
+        ) VALUES (
+            nextval(SEQ_ORDER_ID)
+            , #{userId}
+            , #{orderPrice}
+            , '01' /*01:주문접수*/
+            , DATE_FORMAT(SYSDATE(), '%y%m%d')
+            , #{systemId}
+            , SYSDATE()
+            , #{systemId}
+            , SYSDATE()
+        );
+    </insert>
+
+    <insert id="insertOrderDtl" parameterType="map" useGeneratedKeys="true">
+        /*[OrderMapper.xml][insertOrderDtl]*/
+        INSERT INTO EUNBI.TB_ORDER_DTL (
+            ORDER_ID
+            , MENU_ID
+            , ORDER_CNT
+            , MENU_PRICE
+            , MENU_PRICE_TOT
+
+            , REG_ID
+            , REG_DTM
+            , UPD_ID
+            , UPD_DTM
+        )VALUES (
+            #{orderId}
+            , #{menuId}
+            , #{orderCnt}
+            , #{menuPrice}
+            , #{menuPriceTot}
+
+            , #{systemId}
+            , SYSDATE()
+            , #{systemId}
+            , SYSDATE()
+        )
+    </insert>
+
+
+</mapper>
