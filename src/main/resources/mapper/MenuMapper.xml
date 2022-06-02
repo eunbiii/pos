@@ -11,16 +11,19 @@
 <mapper namespace="com.kakaopaycoding.eunbi.menu.MenuMapper">
     <select id="selectMenuAll" parameterType="Map" resultType="com.kakaopaycoding.eunbi.menu.MenuVo">
         SELECT
-            MENU_ID     /*메뉴아이디*/
-            , MENU_NAME     /*메뉴명*/
-            , MENU_PRICE        /*가격*/
-            , DATE_FORMAT(REG_DTM, '%y%m%d') as REG_DTM       /*등록일자*/
-            , REG_ID        /*등록자*/
-            , DATE_FORMAT(UPD_DTM, '%y%m%d') as UPD_DTM       /*수정일자*/
-            , UPD_ID        /*수정자*/
-        FROM TB_MENU_BASIC
+            A.MENU_ID     /*메뉴아이디*/
+            , A.MENU_NAME     /*메뉴명*/
+            , A.MENU_PRICE        /*가격*/
+            , A.MENU_CTG        /*메뉴카테고리*/
+            , A.MENU_NUM        /*메뉴순서*/
+            , DATE_FORMAT(A.REG_DTM, '%y%m%d') as REG_DTM       /*등록일자*/
+            , A.REG_ID        /*등록자*/
+            , DATE_FORMAT(A.UPD_DTM, '%y%m%d') as UPD_DTM       /*수정일자*/
+            , A.UPD_ID        /*수정자*/
+        FROM TB_MENU_BASIC A
         WHERE 1=1
-        AND USE_YN ='Y'
+        AND A.USE_YN ='Y'
+        ORDER BY A.MENU_CTG, A.MENU_NUM
     </select>
 
     <select id="selectMenuTopWeekly" parameterType="Map" resultType="com.kakaopaycoding.eunbi.menu.MenuVo">
@@ -37,6 +40,8 @@
             A.MENU_ID     /*메뉴아이디*/
             , A.MENU_NAME     /*메뉴명*/
             , A.MENU_PRICE        /*가격*/
+            , A.MENU_CTG        /*메뉴카테고리*/
+            , A.MENU_NUM        /*메뉴순서*/
             , DATE_FORMAT(A.REG_DTM, '%y%m%d') as REG_DTM       /*등록일자*/
             , A.REG_ID        /*등록자*/
             , DATE_FORMAT(A.UPD_DTM, '%y%m%d') as UPD_DTM       /*수정일자*/
@@ -47,7 +52,7 @@
         LEFT OUTER JOIN ORDER_CNT_TOT B ON A.MENU_ID = B.MENU_ID
         WHERE 1=1
         AND USE_YN ='Y'
-        ORDER BY B.ORDER_CNT_TOT DESC, A.MENU_ID
+        ORDER BY B.ORDER_CNT_TOT DESC, A.MENU_CTG, A.MENU_NUM
         LIMIT 3
     </select>
 </mapper>

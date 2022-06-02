@@ -16,33 +16,20 @@ import org.springframework.web.bind.annotation.*;
 public class PointController {
     private final PointService pointService;
 
-    @GetMapping(value = "/getUserPoint")
-    @Description("사용자포인트조회")
-    public ResponseDto<Object> getMenuAllList(){
-        return ResponseDto.builder()
-                .code("ok").build();
-    }
-
     @PostMapping (value = "/pointAdd")
     @Description("사용자포인트적립")
     public ResponseDto<Object> addPoint(@RequestBody PointDto dto){
         pointService.pointAdd(dto);
         return ResponseDto.builder()
-                .code("ok").build();
+                .code("ok")
+                .message("포인트적립완료("+dto.getUserId()+"/"+dto.getPointTot()+")").build();
     }
 
     @PostMapping (value = "/pointUse")
     @Description("사용자포인트사용")
     public ResponseDto<Object> usePoint(@RequestBody PointDto dto){
         try{
-            PointVo vo = PointVo.builder()
-                    .userId(dto.getUserId())
-                    .orderId(dto.getOrderId())
-                    .pointTot(dto.getPointTot())
-                    .description(dto.getDescription()).build();
-            vo.setSystemId(dto.getSystemId());
-
-            pointService.pointUse(vo);
+            pointService.pointUse(dto);
         }catch (Exception e){
             return ResponseDto.builder()
                     .code("error")

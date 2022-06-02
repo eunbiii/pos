@@ -10,10 +10,10 @@
 -->
 <mapper namespace="com.kakaopaycoding.eunbi.point.PointMapper">
     <!-- 포인트 적립 -->
-    <insert id="insertPointAdd" parameterType="map" >
+    <insert id="insertPointAdd" parameterType="map">
         /*[PointMapper.xml][insertPointAdd]*/
         INSERT INTO EUNBI.TB_USER_POINT_ADD (
-            POINT_SEQ
+            POINT_ID
             , USER_ID
             , POINT_TOT
             , USE_YN
@@ -36,10 +36,10 @@
     </insert>
 
     <!-- 포인트 사용 -->
-    <insert id="insertPointUse" parameterType="map" >
+    <insert id="insertPointUse" parameterType="map">
         /*[PointMapper.xml][insertPointUse]*/
         INSERT INTO EUNBI.TB_USER_POINT_USE (
-            POINT_SEQ
+            POINT_ID
             , USER_ID
             , ORDER_ID
             , POINT_TOT
@@ -64,13 +64,13 @@
     </insert>
 
 
-    <update id="updateUserPointAdd"  parameterType="map">
+    <update id="updateUserPointAdd" parameterType="map">
         /*[PointMapper.xml][updateUserPoint]*/
         UPDATE EUNBI.TB_USER_BASIC
         SET POINT_TOT = NVL(POINT_TOT,0) + #{pointTot}
         WHERE USER_ID = #{userId};
     </update>
-    <update id="updateUserPointUse"  parameterType="map">
+    <update id="updateUserPointUse" parameterType="map">
         /*[PointMapper.xml][updateUserPoint]*/
         UPDATE EUNBI.TB_USER_BASIC
         SET POINT_TOT = NVL(POINT_TOT,0) - #{pointTot}

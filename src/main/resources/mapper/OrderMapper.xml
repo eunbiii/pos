@@ -9,6 +9,22 @@
 ########################################################################
 -->
 <mapper namespace="com.kakaopaycoding.eunbi.order.OrderMapper">
+    <select id="selectOrder" parameterType="Map" resultType="com.kakaopaycoding.eunbi.order.OrderVo">
+        SELECT
+            A.ORDER_ID      /*주문아이디*/
+            , A.USER_ID     /*사용자아아디*/
+            , A.ORDER_PRICE     /*주문총금액*/
+            , A.ORDER_STAT      /*주문상태*/
+            , DATE_FORMAT(A.ORDER_DATE, '%y%m%d') as ORDER_DATE       /*주문일자*/
+            , DATE_FORMAT(A.REG_DTM, '%y%m%d') as REG_DTM       /*등록일자*/
+            , A.REG_ID        /*등록자*/
+            , DATE_FORMAT(A.UPD_DTM, '%y%m%d') as UPD_DTM       /*수정일자*/
+            , A.UPD_ID        /*수정자*/
+        FROM TB_ORDER_BAS A
+        WHERE 1=1
+        AND (#{orderId} is null OR A.ORDER_ID = #{orderId})
+    </select>
+
     <insert id="insertOrder" parameterType="com.kakaopaycoding.eunbi.order.OrderVo" useGeneratedKeys="true" keyProperty="orderId" keyColumn="ORDER_ID">
         <selectKey resultType="string" keyProperty="orderId" order="BEFORE">
             select nextval(SEQ_ORDER_ID) from dual
@@ -61,6 +77,10 @@
             , SYSDATE()
         )
     </insert>
-
+    <update id="updateOrderStat" parameterType="map" >
+        UPDATE EUNBI.TB_ORDER_BAS
+        SET ORDER_STAT = #{orderStat}
+        WHERE ORDER_ID = #{orderId};
+    </update>
 
 </mapper>

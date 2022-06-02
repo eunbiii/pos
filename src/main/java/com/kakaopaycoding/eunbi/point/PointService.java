@@ -22,7 +22,6 @@ public class PointService {
      * 사용자포인트적립
      * @param dto
      */
-    @Transactional(readOnly = true)
     public void pointAdd(PointDto dto) {
         PointVo vo = PointVo.builder()
                 .userId(dto.getUserId())
@@ -30,18 +29,31 @@ public class PointService {
                 .description(dto.getDescription()).build();
         vo.setSystemId(dto.getSystemId());
 
+        pointAdd(vo);
+    }
+    @Transactional(readOnly = true)
+    public void pointAdd(PointVo vo) {
         pointMapper.insertPointAdd(vo);
         pointMapper.updateUserPointAdd(vo);
     }
-
     /**
      * 사용자포인트사용
-     * @param vo
+     * @param dto
      * @throws Exception
      */
+    public void pointUse(PointDto dto)  throws Exception  {
+        PointVo vo = PointVo.builder()
+                .userId(dto.getUserId())
+                .orderId(dto.getOrderId())
+                .pointTot(dto.getPointTot())
+                .description(dto.getDescription()).build();
+        vo.setSystemId(dto.getSystemId());
+        validationUtil.validateUserPoint(vo.getUserId(), vo.getPointTot());
+
+        pointUse(vo);
+    }
     @Transactional(readOnly = true)
     public void pointUse(PointVo vo)  throws Exception {
-        validationUtil.validateUserPoint(vo.getUserId(), vo.getPointTot());
         pointMapper.insertPointUse(vo);
         pointMapper.updateUserPointUse(vo);
     }

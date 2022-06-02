@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     private final OrderService orderService;
 
+    /**
+     * 메뉴 주문
+     * @param dto
+     * @return 주문정
+     */
     @PostMapping(value = "/doOrder")
     @Description("메뉴주문")
     public ResponseDto<Object> doOrder(@RequestBody OrderDto dto){
@@ -37,13 +42,26 @@ public class OrderController {
         }
     }
 
+    /**
+     * 메뉴 환불
+     * @param dto
+     * @return 환불한 주문정보
+     */
     @PostMapping(value = "/refundOrder")
     @Description("메뉴환불")
     public ResponseDto<Object> refundOrder(@RequestBody OrderDto dto){
-       // orderService.doOrder(dto);
-        return ResponseDto.builder()
-                .code("")
-                .message("")
-                .result("").build();
+        try {
+            OrderVo vo = orderService.refundOrder(dto);
+            return ResponseDto.builder()
+                    .code("ok")
+                    .message("환불이 완료되었습니다.")
+                    .result(vo).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseDto.builder()
+                    .code("error")
+                    .message(e.getMessage())
+                    .build();
+        }
     }
 }
