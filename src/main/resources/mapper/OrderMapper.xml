@@ -9,8 +9,10 @@
 ########################################################################
 -->
 <mapper namespace="com.kakaopaycoding.eunbi.order.OrderMapper">
-    <insert id="insertOrder" parameterType="com.kakaopaycoding.eunbi.vo.OrderVo"
-            useGeneratedKeys="true" keyProperty="orderId" keyColumn="ORDER_ID">
+    <insert id="insertOrder" parameterType="com.kakaopaycoding.eunbi.order.OrderVo" useGeneratedKeys="true" keyProperty="orderId" keyColumn="ORDER_ID">
+        <selectKey resultType="string" keyProperty="orderId" order="BEFORE">
+            select nextval(SEQ_ORDER_ID) from dual
+        </selectKey>
         /*[OrderMapper.xml][insertOrder]*/
         INSERT INTO EUNBI.TB_ORDER_BAS (
             ORDER_ID
@@ -23,11 +25,11 @@
             , UPD_ID
             , UPD_DTM
         ) VALUES (
-            nextval(SEQ_ORDER_ID)
+            #{orderId}
             , #{userId}
             , #{orderPrice}
             , '01' /*01:주문접수*/
-            , DATE_FORMAT(SYSDATE(), '%y%m%d')
+            , SYSDATE()/*DATE_FORMAT(SYSDATE(), '%y%m%d')*/
             , #{systemId}
             , SYSDATE()
             , #{systemId}
@@ -43,7 +45,6 @@
             , ORDER_CNT
             , MENU_PRICE
             , MENU_PRICE_TOT
-
             , REG_ID
             , REG_DTM
             , UPD_ID
@@ -54,7 +55,6 @@
             , #{orderCnt}
             , #{menuPrice}
             , #{menuPriceTot}
-
             , #{systemId}
             , SYSDATE()
             , #{systemId}

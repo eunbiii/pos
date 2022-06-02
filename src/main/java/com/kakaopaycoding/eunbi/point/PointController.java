@@ -1,7 +1,6 @@
 package com.kakaopaycoding.eunbi.point;
 
 import com.kakaopaycoding.eunbi.global.ResponseDto;
-import com.kakaopaycoding.eunbi.vo.PointVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Description;
@@ -36,7 +35,14 @@ public class PointController {
     @Description("사용자포인트사용")
     public ResponseDto<Object> usePoint(@RequestBody PointDto dto){
         try{
-            pointService.pointUse(dto);
+            PointVo vo = PointVo.builder()
+                    .userId(dto.getUserId())
+                    .orderId(dto.getOrderId())
+                    .pointTot(dto.getPointTot())
+                    .description(dto.getDescription()).build();
+            vo.setSystemId(dto.getSystemId());
+
+            pointService.pointUse(vo);
         }catch (Exception e){
             return ResponseDto.builder()
                     .code("error")

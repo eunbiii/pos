@@ -1,7 +1,6 @@
 package com.kakaopaycoding.eunbi.menu;
 
 import com.kakaopaycoding.eunbi.global.ResponseDto;
-import com.kakaopaycoding.eunbi.vo.MenuVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Description;
@@ -28,11 +27,11 @@ public class MenuController {
     }
 
     @GetMapping(value = "/getMenuTopList")
-    @Description("전체메뉴조회")
+    @Description("인기메뉴조회")
     public ResponseDto<Object> getMenuTopList(MenuVo dto){
         return ResponseDto.builder()
                 .code("ok")
-                .result(menuService.getMenuAllList()).build();
+                .result(menuService.getMenuTopList()).build();
     }
 
 }

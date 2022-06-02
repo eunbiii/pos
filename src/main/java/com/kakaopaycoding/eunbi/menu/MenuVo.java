@@ -1,4 +1,4 @@
-package com.kakaopaycoding.eunbi.vo;
+package com.kakaopaycoding.eunbi.menu;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +18,7 @@ public class MenuVo {
     private String regId;       /*등록자*/
     private String updDtm;      /*수정일자*/
     private String updId;       /*수정자*/
+
+    private int orderCntTot; /*총판매개수*/
+    private int orderRank; /*판매순위*/
 }

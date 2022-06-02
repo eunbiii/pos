@@ -1,12 +1,9 @@
 package com.kakaopaycoding.eunbi.point;
 
-import com.kakaopaycoding.eunbi.vo.OrderDtlVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 /**
  * Created by eunbi on 2022/06/01

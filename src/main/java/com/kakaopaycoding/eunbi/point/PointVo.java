@@ -1,4 +1,4 @@
-package com.kakaopaycoding.eunbi.vo;
+package com.kakaopaycoding.eunbi.point;
 
 import com.kakaopaycoding.eunbi.global.GlobalVo;
 import lombok.Builder;

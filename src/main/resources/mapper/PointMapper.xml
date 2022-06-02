@@ -77,7 +77,7 @@
         WHERE USER_ID = #{userId};
     </update>
 
-    <select id="selectUserPoint" parameterType="Map" resultType="com.kakaopaycoding.eunbi.vo.UserVo">
+    <select id="selectUserPoint" parameterType="Map" resultType="com.kakaopaycoding.eunbi.point.UserVo">
         SELECT
             USER_ID     /*사용자아이디*/
             , USER_NM       /*사용자명*/

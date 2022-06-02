@@ -1,7 +1,5 @@
 package com.kakaopaycoding.eunbi.point;
 
-import com.kakaopaycoding.eunbi.vo.PointVo;
-import com.kakaopaycoding.eunbi.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

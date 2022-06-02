@@ -1,7 +1,7 @@
-package com.kakaopaycoding.eunbi.vo;
+package com.kakaopaycoding.eunbi.order;
 
 import com.kakaopaycoding.eunbi.global.GlobalVo;
-import lombok.Builder;
+import com.kakaopaycoding.eunbi.order.OrderDtlVo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,4 +25,11 @@ public class OrderVo  extends GlobalVo {
 
     private List<OrderDtlVo> orderDtlList;
 
+    public String getKafkaMsg(){
+        return "{" +
+                "orderId : " + orderId+
+                ", userId : " + userId +
+                ", orderPrice : " + orderPrice+
+                "}";
+    }
  }

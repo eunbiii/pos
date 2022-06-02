@@ -1,6 +1,5 @@
 package com.kakaopaycoding.eunbi.order;
 
-import com.kakaopaycoding.eunbi.vo.OrderDtlVo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

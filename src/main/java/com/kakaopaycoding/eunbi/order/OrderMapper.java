@@ -1,11 +1,6 @@
 package com.kakaopaycoding.eunbi.order;
 
-import com.kakaopaycoding.eunbi.vo.MenuVo;
-import com.kakaopaycoding.eunbi.vo.OrderDtlVo;
-import com.kakaopaycoding.eunbi.vo.OrderVo;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 
 /**

@@ -1,7 +1,6 @@
 package com.kakaopaycoding.eunbi.order;
 
 import com.kakaopaycoding.eunbi.global.ResponseDto;
-import com.kakaopaycoding.eunbi.vo.OrderVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Description;
@@ -30,6 +29,7 @@ public class OrderController {
                     .message("주문이 완료되었습니다.")
                     .result(vo).build();
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseDto.builder()
                     .code("error")
                     .message(e.getMessage())
