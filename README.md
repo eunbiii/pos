@@ -84,3 +84,33 @@ TABLE
 주문		: 주문아이디(SEQ), 유저아이디, 총금액, 주문일자, 주문상태
 주문상세	: 주문아이디, 메뉴아이디, 개별금액, 개수
 결제		: 결제아이디, 주문아이디, 결제수단
+
+TODO : 
+1) ORDER DTL RegId 
+
+3) 쿼리 업데이트
+WITH ORDER_CNT_TOT as (
+SELECT 
+ A.MENU_ID
+ , sum(A.ORDER_CNT) as ORDER_CNT_TOT
+ , RANK() OVER( ORDER BY ORDER_CNT_TOT DESC) as ORDER_RANK
+FROM TB_ORDER_DTL A
+INNER JOIN TB_ORDER_BAS B ON A.ORDER_ID = B.ORDER_ID AND B.ORDER_STAT != '03'
+GROUP BY MENU_ID 
+)
+SELECT
+    A.MENU_ID     /*메뉴아이디*/
+    , A.MENU_NAME     /*메뉴명*/
+    , A.MENU_PRICE        /*가격*/
+    , DATE_FORMAT(A.REG_DTM, '%y%m%d') as REG_DTM       /*등록일자*/
+    , A.REG_ID        /*등록자*/
+    , DATE_FORMAT(A.UPD_DTM, '%y%m%d') as UPD_DTM       /*수정일자*/
+    , A.UPD_ID        /*수정자*/
+    , NVL(B.ORDER_CNT_TOT, 0) AS ORDER_CNT_TOT
+    , B.ORDER_RANK
+FROM TB_MENU_BASIC A
+LEFT OUTER JOIN ORDER_CNT_TOT B ON A.MENU_ID = B.MENU_ID
+WHERE 1=1
+AND USE_YN ='Y'
+ORDER BY B.ORDER_CNT_TOT DESC 
+LIMIT 3
